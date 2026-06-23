@@ -1,1 +1,11 @@
-<p>Stuff I know About</p>
+<section class="skills">
+	<h3>Stuff I Know About</h3>
+	<div class="logos-grid grid grid-cols-6 ">
+		<ng-container *ngFor="let logo of logos">
+			<figure class="logo-item ">
+				<img class="h-8" [src]="logo" [alt]="altFromPath(logo)" loading="lazy" />
+				
+			</figure>
+		</ng-container>
+	</div>
+</section>
