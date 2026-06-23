@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
 import { AboutMe } from '../about-me/about-me';
+import { NavBar } from '../nav-bar/nav-bar';
+import { MyWork } from '../my-work/my-work';
+import { Header } from '../header/header';
+import { MySkills } from '../my-skills/my-skills';
+import { Contact } from '../contact/contact';
+import { Footer } from '../footer/footer';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [AboutMe],
+  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })
