@@ -3,9 +3,20 @@
 @import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap');
 
-body{
-background-color: #171717;
-  font-family: "Geist";
-  font-weight:  250;
-  color: #DCDCD8;
+*{
+  margin: 0;
+  padding:0;
+  
+  
 }
+body {
+  margin: 0 auto;
+  background-color: #171717;
+  font-family: "Geist";
+  font-weight: 250;
+  color: #DCDCD8;
+  max-width: 650px;
+  width: min(100%, 650px);
+}
+
+

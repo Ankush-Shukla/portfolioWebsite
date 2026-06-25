@@ -6,3 +6,29 @@
 .tags{
     color : #5e5c5c;
 }
+
+.profile-pic{
+    height: 40px;
+    aspect-ratio:calc(1);
+    border-radius: 8px;
+    margin: 4px;
+    justify-content: space-around;
+}
+
+.header-container{
+    margin:8px 8px 8px 0px;
+    padding:8px 8px 8px 0px ;
+    display: flex;
+    flex-direction: row;
+}
+.name-tagline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin:4px;
+}
+
+.tags{
+    margin:3px 3px 3px 10px;
+}

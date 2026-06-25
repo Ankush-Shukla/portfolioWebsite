@@ -1,0 +1,15 @@
+input,
+textarea {
+    background-color: #171717;
+    border: none;
+    outline: none;
+}
+
+input:focus,
+textarea:focus,
+input:active,
+textarea:active {
+    border: none !important;
+    outline: none !important;
+    background-color: #171717;
+}
