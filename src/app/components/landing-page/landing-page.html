@@ -1,12 +1,15 @@
-<app-nav-bar></app-nav-bar>
-<hr>
-<app-header></app-header>
-<app-about-me></app-about-me>
-<hr>
+<!-- <app-nav-bar></app-nav-bar> -->
+
+<div class="intro">
+    <app-divider [title]="'Hello There!'" />
+    <app-header></app-header>
+    <app-about-me></app-about-me>
+</div>
+<app-divider [title]="'Things I have worked '" />
 <app-my-work></app-my-work>
-<hr>
+<app-divider [title]="'Stuff I know about'" />
 <app-my-skills></app-my-skills>
-<hr>
+<app-divider [title]="'Let\'s Talk'" />
 <app-contact></app-contact>
-<hr>
+<app-divider [title]="'See you soon!'" />
 <app-footer></app-footer>

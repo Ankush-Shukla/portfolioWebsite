@@ -1,0 +1,10 @@
+.logo-item{
+    margin: 0;
+    padding: 0;
+  justify-self: center;
+  
+}
+
+.logos-grid{
+    gap:16px;
+}

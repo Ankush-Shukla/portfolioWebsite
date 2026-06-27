@@ -1,8 +1,12 @@
 input,
 textarea {
     background-color: #171717;
-    border: none;
-    outline: none;
+    gap:16px;
+    border-radius: 8px;
+    outline-color: #5E5B4F;
+    outline-width: 1px;
+    outline-style:dotted;
+    padding : 8px;
 }
 
 input:focus,
@@ -10,6 +14,45 @@ textarea:focus,
 input:active,
 textarea:active {
     border: none !important;
-    outline: none !important;
+    /* outline: none !important; */
     background-color: #171717;
+}
+.form-group{
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    margin: 16px;
+    align-items: center;
+}
+
+.contact-section{
+    display: flex;
+    flex-direction: row;
+  
+}
+
+button{
+     display:flex;
+    gap: 16px;
+    margin:16px;
+}
+
+/* Ensure inputs take available space and align consistently */
+input,
+textarea{
+    width:100%;
+    box-sizing: border-box;
+}
+
+/* Autofill */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #171717 inset !important;
+    -webkit-text-fill-color: white !important;
+   
+}
+
+button:hover{
+  cursor:pointer;
 }

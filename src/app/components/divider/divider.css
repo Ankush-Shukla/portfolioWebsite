@@ -1,0 +1,17 @@
+.divider {
+  margin: 20px 0px 20px 0px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.divider hr {
+  flex: 1;
+  background-color: #5e5c5c;
+  color: #5e5c5c;
+}
+
+.divider span {
+  font-weight: 200;
+  white-space: nowrap;
+}

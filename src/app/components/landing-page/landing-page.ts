@@ -6,10 +6,11 @@ import { Header } from '../header/header';
 import { MySkills } from '../my-skills/my-skills';
 import { Contact } from '../contact/contact';
 import { Footer } from '../footer/footer';
+import { Divider } from '../divider/divider';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer],
+  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer,Divider],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })
