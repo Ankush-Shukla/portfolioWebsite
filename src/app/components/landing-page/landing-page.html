@@ -1,15 +1,15 @@
 <!-- <app-nav-bar></app-nav-bar> -->
 
-<div class="intro">
+<div class="intro" appReveal>
     <app-divider [title]="'Hello There!'" />
     <app-header></app-header>
     <app-about-me></app-about-me>
 </div>
-<app-divider [title]="'Things I have worked '" />
-<app-my-work></app-my-work>
-<app-divider [title]="'Stuff I know about'" />
-<app-my-skills></app-my-skills>
-<app-divider [title]="'Let\'s Talk'" />
-<app-contact></app-contact>
-<app-divider [title]="'Thanks for visiting :)'" />
-<app-footer></app-footer>
+<app-divider [title]="'Things I have worked '" appReveal />
+<app-my-work appReveal></app-my-work>
+<app-divider [title]="'Stuff I know about'" appReveal />
+<app-my-skills appReveal></app-my-skills>
+<!-- <app-divider [title]="'Let\'s Talk'" appReveal />
+<app-contact appReveal></app-contact> -->
+<app-divider [title]="'Thanks for visiting :)'" appReveal />
+<app-footer appReveal></app-footer>

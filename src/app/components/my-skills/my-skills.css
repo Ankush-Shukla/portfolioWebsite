@@ -5,6 +5,17 @@
   
 }
 
+.logo-item img{
+    transition: transform 350ms var(--ease-out), filter 350ms var(--ease-out);
+    filter: grayscale(75%) brightness(0.85);
+}
+
+.logo-item:hover img,
+.logo-item:focus-within img{
+    transform: translateY(-4px) scale(1.12);
+    filter: grayscale(0%) brightness(1.05);
+}
+
 .logos-grid{
     gap:16px;
 }

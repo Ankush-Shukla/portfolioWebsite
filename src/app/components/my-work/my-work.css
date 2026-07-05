@@ -1,8 +1,33 @@
 span{
     font-weight: 600;
+    transition: color 350ms var(--ease-out);
 }
 
 ul{
     display: grid;
     gap:24px;
+}
+
+.projects-list a{
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.projects-list li{
+    padding: 14px 16px;
+    margin: -14px -16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: border-color 350ms var(--ease-out), background-color 350ms var(--ease-out), transform 350ms var(--ease-out);
+}
+
+.projects-list li:hover{
+    border-color: var(--accent-soft);
+    background-color: rgba(255, 255, 255, 0.03);
+    transform: translateX(6px);
+}
+
+.projects-list li:hover span{
+    color: var(--accent);
 }

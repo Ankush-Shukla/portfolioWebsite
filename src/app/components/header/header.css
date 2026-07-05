@@ -13,6 +13,12 @@
     border-radius: 8px;
     margin: 4px;
     justify-content: space-around;
+    transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
+}
+
+.profile-pic:hover{
+    transform: rotate(-4deg) scale(1.08);
+    box-shadow: 0 8px 24px rgba(232, 163, 61, 0.25);
 }
 
 .header-container{

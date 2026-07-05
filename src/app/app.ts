@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { LandingPage } from './components/landing-page/landing-page';
 import { HoverCard } from './components/hover-card/hover-card';
 
@@ -8,7 +8,13 @@ import { HoverCard } from './components/hover-card/hover-card';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
+export class App implements OnInit {
   protected readonly title = signal('portfolioWebsite');
-}
+  protected readonly loading = signal(true);
 
+  ngOnInit(): void {
+    const prefersReducedMotion =
+      typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.setTimeout(() => this.loading.set(false), prefersReducedMotion ? 0 : 1100);
+  }
+}

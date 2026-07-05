@@ -7,6 +7,7 @@ textarea {
     outline-width: 1px;
     outline-style:dotted;
     padding : 8px;
+    transition: outline-color 300ms ease, box-shadow 300ms ease;
 }
 
 input:focus,
@@ -16,6 +17,9 @@ textarea:active {
     border: none !important;
     /* outline: none !important; */
     background-color: #171717;
+    outline-color: var(--accent);
+    outline-style: solid;
+    box-shadow: 0 0 0 3px var(--accent-soft);
 }
 .form-group{
     display: grid;
@@ -32,9 +36,47 @@ textarea:active {
 }
 
 button{
-     display:flex;
+    display:flex;
     gap: 16px;
     margin:16px;
+    position: relative;
+    overflow: hidden;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(94, 91, 79, 0.5);
+    background: transparent;
+    color: var(--fg);
+    font-family: inherit;
+    transition: color 400ms var(--ease-out), border-color 400ms var(--ease-out);
+}
+
+button::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 450ms var(--ease-out);
+    z-index: 0;
+}
+
+button span{
+    position: relative;
+    z-index: 1;
+    transition: color 400ms var(--ease-out);
+}
+
+button:hover{
+    border-color: var(--accent);
+}
+
+button:hover::before{
+    transform: scaleX(1);
+}
+
+button:hover span{
+    color: #12120D;
 }
 
 /* Ensure inputs take available space and align consistently */

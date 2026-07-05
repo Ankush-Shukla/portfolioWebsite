@@ -1,2 +1,11 @@
-<app-landing-page></app-landing-page>
-<app-hover-card></app-hover-card>
+<div class="loader" [class.loader--hidden]="!loading()" aria-hidden="true">
+  <div class="loader-mark">
+    <span>Ankush Shukla</span>
+    <i class="loader-line"></i>
+  </div>
+</div>
+
+<div class="site" [class.site--visible]="!loading()">
+  <app-landing-page></app-landing-page>
+  <app-hover-card></app-hover-card>
+</div>
