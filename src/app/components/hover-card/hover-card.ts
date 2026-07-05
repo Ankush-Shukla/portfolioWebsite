@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
 import { HoverCardService } from './hover-card.service';
 import { HoverCardState } from './hover-card.model';
 
@@ -11,21 +10,23 @@ import { HoverCardState } from './hover-card.model';
   templateUrl: './hover-card.html',
   styleUrl: './hover-card.css',
 })
-export class HoverCard implements AfterViewInit {
-  state$: Observable<HoverCardState>;
+export class HoverCard {
+  private readonly hoverCardService = inject(HoverCardService);
+
+  protected readonly state = this.hoverCardService.state;
 
   @ViewChild('card', { static: false }) cardRef?: ElementRef<HTMLElement>;
 
-  adjustedLeft = 0;
-  adjustedTop = 0;
+  // Signals (not plain fields) so position updates re-render even though they're
+  // written from a requestAnimationFrame callback outside any Angular event —
+  // this app is zoneless, and only signal writes are guaranteed to schedule a re-render.
+  protected readonly adjustedLeft = signal(0);
+  protected readonly adjustedTop = signal(0);
+
   private raf?: number;
 
-  constructor(private readonly hoverCardService: HoverCardService) {
-    this.state$ = this.hoverCardService.state$;
-  }
-
-  ngAfterViewInit(): void {
-    this.state$.subscribe((state) => this.updatePosition(state));
+  constructor() {
+    effect(() => this.updatePosition(this.state()));
   }
 
   private updatePosition(state: HoverCardState): void {
@@ -58,8 +59,8 @@ export class HoverCard implements AfterViewInit {
         }
       }
 
-      this.adjustedLeft = Math.max(12, targetLeft);
-      this.adjustedTop = Math.max(12, targetTop);
+      this.adjustedLeft.set(Math.max(12, targetLeft));
+      this.adjustedTop.set(Math.max(12, targetTop));
     });
   }
 }

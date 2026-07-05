@@ -1,11 +1,11 @@
-<ng-container *ngIf="state$ | async as state">
+<ng-container *ngIf="state() as state">
   <div
     #card
     class="hover-card"
     role="tooltip"
     [class.visible]="state.visible"
-    [style.left.px]="adjustedLeft"
-    [style.top.px]="adjustedTop"
+    [style.left.px]="adjustedLeft()"
+    [style.top.px]="adjustedTop()"
     *ngIf="state.visible"
   >
     <ng-container *ngIf="state.template; else defaultCard">
