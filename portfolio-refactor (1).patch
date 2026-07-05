@@ -1,0 +1,572 @@
+diff --git a/src/app/app.css b/src/app/app.css
+index e69de29..39c766b 100644
+--- a/src/app/app.css
++++ b/src/app/app.css
+@@ -0,0 +1,74 @@
++.loader {
++  position: fixed;
++  inset: 0;
++  z-index: 10000;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  background: var(--bg);
++  transition: opacity 500ms ease, visibility 500ms ease;
++}
++
++.loader--hidden {
++  opacity: 0;
++  visibility: hidden;
++  pointer-events: none;
++}
++
++.loader-mark {
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  gap: 10px;
++}
++
++.loader-mark span {
++  font-size: 12px;
++  letter-spacing: 0.35em;
++  text-transform: uppercase;
++  color: var(--fg);
++  opacity: 0;
++  animation: loader-fade 600ms ease forwards 150ms;
++}
++
++.loader-line {
++  display: block;
++  width: 64px;
++  height: 1px;
++  background: var(--accent);
++  transform: scaleX(0);
++  transform-origin: left;
++  animation: loader-draw 900ms cubic-bezier(0.16, 0.84, 0.44, 1) forwards 250ms;
++}
++
++@keyframes loader-fade {
++  to {
++    opacity: 1;
++  }
++}
++
++@keyframes loader-draw {
++  to {
++    transform: scaleX(1);
++  }
++}
++
++.site {
++  opacity: 0;
++  transform: translateY(8px);
++  transition: opacity 600ms ease, transform 600ms ease;
++}
++
++.site--visible {
++  opacity: 1;
++  transform: none;
++}
++
++@media (prefers-reduced-motion: reduce) {
++  .loader-mark span,
++  .loader-line {
++    animation: none;
++    opacity: 1;
++    transform: none;
++  }
++}
+diff --git a/src/app/app.html b/src/app/app.html
+index 2c42064..b04f2ab 100644
+--- a/src/app/app.html
++++ b/src/app/app.html
+@@ -1,2 +1,11 @@
+-<app-landing-page></app-landing-page>
+-<app-hover-card></app-hover-card>
+\ No newline at end of file
++<div class="loader" [class.loader--hidden]="!loading()" aria-hidden="true">
++  <div class="loader-mark">
++    <span>Ankush Shukla</span>
++    <i class="loader-line"></i>
++  </div>
++</div>
++
++<div class="site" [class.site--visible]="!loading()">
++  <app-landing-page></app-landing-page>
++  <app-hover-card></app-hover-card>
++</div>
+diff --git a/src/app/app.ts b/src/app/app.ts
+index b6b3346..e80fbb8 100644
+--- a/src/app/app.ts
++++ b/src/app/app.ts
+@@ -1,4 +1,4 @@
+-import { Component, signal } from '@angular/core';
++import { Component, OnInit, signal } from '@angular/core';
+ import { LandingPage } from './components/landing-page/landing-page';
+ import { HoverCard } from './components/hover-card/hover-card';
+ 
+@@ -8,7 +8,13 @@ import { HoverCard } from './components/hover-card/hover-card';
+   templateUrl: './app.html',
+   styleUrl: './app.css',
+ })
+-export class App {
++export class App implements OnInit {
+   protected readonly title = signal('portfolioWebsite');
+-}
++  protected readonly loading = signal(true);
+ 
++  ngOnInit(): void {
++    const prefersReducedMotion =
++      typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
++    window.setTimeout(() => this.loading.set(false), prefersReducedMotion ? 0 : 1100);
++  }
++}
+diff --git a/src/app/components/about-me/about-me.css b/src/app/components/about-me/about-me.css
+index a772b50..6a127b0 100644
+--- a/src/app/components/about-me/about-me.css
++++ b/src/app/components/about-me/about-me.css
+@@ -1,3 +1,8 @@
+ .tags{
+     color : #5e5c5c;
+ }
++
++.outro{
++    color: var(--muted);
++    font-size: 0.95em;
++}
+diff --git a/src/app/components/about-me/about-me.html b/src/app/components/about-me/about-me.html
+index 68c675c..a83dec4 100644
+--- a/src/app/components/about-me/about-me.html
++++ b/src/app/components/about-me/about-me.html
+@@ -1,22 +1,28 @@
+ <div class="main-container">
+   <p class="aboutMe personal">
+     Hi, I'm Ankush Shukla, a MCA Student & BCA graduate who enjoys turning ideas into practical and impactful
+-    digital experiences. I am driven by curiosity, continuous learning, and the challenge of solving
+-    complex problems through technology.
++    digital experiences. I am driven by <span class="spark">curiosity</span>, continuous <span class="spark">learning</span>, and the challenge of solving
++    <span class="spark">complex problems</span> through technology.
+   </p>
+   <br />
+ 
+   <p class="aboutMe work">
+     My work focuses on building thoughtful solutions, improving user experiences, and approaching
+-    challenges with a problem-solving mindset. I enjoy exploring new domains, learning emerging
++    challenges with a <span class="spark">problem-solving mindset</span>. I enjoy exploring new domains, learning emerging
+     technologies, and expanding my skills through hands-on experimentation.
+   </p>
+   <br />
+ 
+   <p class="aboutMe believes">
+-    I believe growth comes from building, learning, and sharing knowledge. I'm always interested in
+-    connecting with people who are passionate about technology, innovation, and creating meaningful
+-    products.
++    I believe <span class="spark">growth</span> comes from building, learning, and sharing knowledge. I'm always interested in
++    connecting with people who are passionate about technology, innovation, and creating <span class="spark">meaningful products</span>.
+   </p>
+   <br />
++
++  <p class="aboutMe outro">
++    Always open to interesting conversations about software, problem-solving, and side projects. Say hello or
++    follow me on <a class="link-draw" href="https://github.com/Ankush-Shukla" target="_blank" rel="noopener">GitHub</a>,
++    <a class="link-draw" href="https://www.linkedin.com/in/ankush-shukla/" target="_blank" rel="noopener">LinkedIn</a>, or
++    <a class="link-draw" href="https://www.instagram.com/ankush.shukla__/" target="_blank" rel="noopener">Instagram</a>.
++  </p>
+ </div>
+diff --git a/src/app/components/contact/contact.css b/src/app/components/contact/contact.css
+index d638338..943a3f7 100644
+--- a/src/app/components/contact/contact.css
++++ b/src/app/components/contact/contact.css
+@@ -7,6 +7,7 @@ textarea {
+     outline-width: 1px;
+     outline-style:dotted;
+     padding : 8px;
++    transition: outline-color 300ms ease, box-shadow 300ms ease;
+ }
+ 
+ input:focus,
+@@ -16,6 +17,9 @@ textarea:active {
+     border: none !important;
+     /* outline: none !important; */
+     background-color: #171717;
++    outline-color: var(--accent);
++    outline-style: solid;
++    box-shadow: 0 0 0 3px var(--accent-soft);
+ }
+ .form-group{
+     display: grid;
+@@ -32,9 +36,47 @@ textarea:active {
+ }
+ 
+ button{
+-     display:flex;
++    display:flex;
+     gap: 16px;
+     margin:16px;
++    position: relative;
++    overflow: hidden;
++    padding: 10px 20px;
++    border-radius: 8px;
++    border: 1px solid rgba(94, 91, 79, 0.5);
++    background: transparent;
++    color: var(--fg);
++    font-family: inherit;
++    transition: color 400ms var(--ease-out), border-color 400ms var(--ease-out);
++}
++
++button::before{
++    content: '';
++    position: absolute;
++    inset: 0;
++    background: var(--accent);
++    transform: scaleX(0);
++    transform-origin: left;
++    transition: transform 450ms var(--ease-out);
++    z-index: 0;
++}
++
++button span{
++    position: relative;
++    z-index: 1;
++    transition: color 400ms var(--ease-out);
++}
++
++button:hover{
++    border-color: var(--accent);
++}
++
++button:hover::before{
++    transform: scaleX(1);
++}
++
++button:hover span{
++    color: #12120D;
+ }
+ 
+ /* Ensure inputs take available space and align consistently */
+diff --git a/src/app/components/contact/contact.html b/src/app/components/contact/contact.html
+index ccb872d..07ad7b3 100644
+--- a/src/app/components/contact/contact.html
++++ b/src/app/components/contact/contact.html
+@@ -17,6 +17,6 @@
+       <textarea id="message" rows="2" #messageInput placeholder="Tell me about your project" required></textarea>
+     </div>
+ 
+-    <button type="submit">Send message !</button>
++    <button type="submit"><span>Send message !</span></button>
+   </form>
+ </section>
+diff --git a/src/app/components/footer/footer.html b/src/app/components/footer/footer.html
+index b4cab44..b766bb0 100644
+--- a/src/app/components/footer/footer.html
++++ b/src/app/components/footer/footer.html
+@@ -5,9 +5,9 @@
+         <p class="quote">"Never regret thy fall, O Icarus of the fearless flight, For the greatest tragedy of them all Is never to feel the burning light."</p>
+     </div>
+     <ul class="socials">
+-        <li><a href="">Github</a></li>
+-        <li><a href="">LinkedIn</a></li>
+-        <li><a href="">X</a></li>
+-        <li><a href="">Instagram</a></li>
++        <li><a class="link-draw" href="" target="_blank" rel="noopener">Github</a></li>
++        <li><a class="link-draw" href="" target="_blank" rel="noopener">LinkedIn</a></li>
++        <li><a class="link-draw" href="" target="_blank" rel="noopener">X</a></li>
++        <li><a class="link-draw" href="" target="_blank" rel="noopener">Instagram</a></li>
+     </ul>
+ </div>
+\ No newline at end of file
+diff --git a/src/app/components/header/header.css b/src/app/components/header/header.css
+index 3dcf616..bcd052e 100644
+--- a/src/app/components/header/header.css
++++ b/src/app/components/header/header.css
+@@ -13,6 +13,12 @@
+     border-radius: 8px;
+     margin: 4px;
+     justify-content: space-around;
++    transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
++}
++
++.profile-pic:hover{
++    transform: rotate(-4deg) scale(1.08);
++    box-shadow: 0 8px 24px rgba(232, 163, 61, 0.25);
+ }
+ 
+ .header-container{
+diff --git a/src/app/components/landing-page/landing-page.html b/src/app/components/landing-page/landing-page.html
+index 23a9858..1d34ca5 100644
+--- a/src/app/components/landing-page/landing-page.html
++++ b/src/app/components/landing-page/landing-page.html
+@@ -1,15 +1,15 @@
+ <!-- <app-nav-bar></app-nav-bar> -->
+ 
+-<div class="intro">
++<div class="intro" appReveal>
+     <app-divider [title]="'Hello There!'" />
+     <app-header></app-header>
+     <app-about-me></app-about-me>
+ </div>
+-<app-divider [title]="'Things I have worked '" />
+-<app-my-work></app-my-work>
+-<app-divider [title]="'Stuff I know about'" />
+-<app-my-skills></app-my-skills>
+-<app-divider [title]="'Let\'s Talk'" />
+-<app-contact></app-contact>
+-<app-divider [title]="'Thanks for visiting :)'" />
+-<app-footer></app-footer>
+\ No newline at end of file
++<app-divider [title]="'Things I have worked '" appReveal />
++<app-my-work appReveal></app-my-work>
++<app-divider [title]="'Stuff I know about'" appReveal />
++<app-my-skills appReveal></app-my-skills>
++<app-divider [title]="'Let\'s Talk'" appReveal />
++<app-contact appReveal></app-contact>
++<app-divider [title]="'Thanks for visiting :)'" appReveal />
++<app-footer appReveal></app-footer>
+diff --git a/src/app/components/landing-page/landing-page.ts b/src/app/components/landing-page/landing-page.ts
+index fb141e8..af2a73a 100644
+--- a/src/app/components/landing-page/landing-page.ts
++++ b/src/app/components/landing-page/landing-page.ts
+@@ -7,10 +7,11 @@ import { MySkills } from '../my-skills/my-skills';
+ import { Contact } from '../contact/contact';
+ import { Footer } from '../footer/footer';
+ import { Divider } from '../divider/divider';
++import { RevealDirective } from '../../shared/reveal.directive';
+ 
+ @Component({
+   selector: 'app-landing-page',
+-  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer,Divider],
++  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer,Divider,RevealDirective],
+   templateUrl: './landing-page.html',
+   styleUrl: './landing-page.css',
+ })
+diff --git a/src/app/components/my-skills/my-skills.css b/src/app/components/my-skills/my-skills.css
+index 410fbb7..ca82066 100644
+--- a/src/app/components/my-skills/my-skills.css
++++ b/src/app/components/my-skills/my-skills.css
+@@ -5,6 +5,15 @@
+   
+ }
+ 
++.logo-item img{
++    transition: transform 350ms var(--ease-out);
++}
++
++.logo-item:hover img,
++.logo-item:focus-within img{
++    transform: translateY(-4px) scale(1.12);
++}
++
+ .logos-grid{
+     gap:16px;
+ }
+\ No newline at end of file
+diff --git a/src/app/components/my-work/my-work.css b/src/app/components/my-work/my-work.css
+index 470b601..9a06094 100644
+--- a/src/app/components/my-work/my-work.css
++++ b/src/app/components/my-work/my-work.css
+@@ -1,8 +1,33 @@
+ span{
+     font-weight: 600;
++    transition: color 350ms var(--ease-out);
+ }
+ 
+ ul{
+     display: grid;
+     gap:24px;
++}
++
++.projects-list a{
++    text-decoration: none;
++    color: inherit;
++    display: block;
++}
++
++.projects-list li{
++    padding: 14px 16px;
++    margin: -14px -16px;
++    border-radius: 12px;
++    border: 1px solid transparent;
++    transition: border-color 350ms var(--ease-out), background-color 350ms var(--ease-out), transform 350ms var(--ease-out);
++}
++
++.projects-list li:hover{
++    border-color: var(--accent-soft);
++    background-color: rgba(255, 255, 255, 0.03);
++    transform: translateX(6px);
++}
++
++.projects-list li:hover span{
++    color: var(--accent);
+ }
+\ No newline at end of file
+diff --git a/src/app/shared/reveal.directive.ts b/src/app/shared/reveal.directive.ts
+new file mode 100644
+index 0000000..3cf1df6
+--- /dev/null
++++ b/src/app/shared/reveal.directive.ts
+@@ -0,0 +1,51 @@
++import { AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular/core';
++
++/**
++ * Fades + lifts an element into place the first time it scrolls into view.
++ * Usage: <section appReveal></section>  or  <section appReveal [revealDelay]="120"></section>
++ */
++@Directive({
++  selector: '[appReveal]',
++  standalone: true,
++})
++export class RevealDirective implements AfterViewInit, OnDestroy {
++  @Input() revealDelay = 0;
++
++  private observer?: IntersectionObserver;
++
++  constructor(private readonly el: ElementRef<HTMLElement>) {}
++
++  ngAfterViewInit(): void {
++    const node = this.el.nativeElement;
++    node.classList.add('reveal');
++
++    if (this.revealDelay) {
++      node.style.transitionDelay = `${this.revealDelay}ms`;
++    }
++
++    const prefersReducedMotion =
++      typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
++    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
++      node.classList.add('revealed');
++      return;
++    }
++
++    this.observer = new IntersectionObserver(
++      (entries) => {
++        for (const entry of entries) {
++          if (entry.isIntersecting) {
++            node.classList.add('revealed');
++            this.observer?.unobserve(node);
++          }
++        }
++      },
++      { threshold: 0.15, rootMargin: '0px 0px -60px 0px' },
++    );
++
++    this.observer.observe(node);
++  }
++
++  ngOnDestroy(): void {
++    this.observer?.disconnect();
++  }
++}
+diff --git a/src/styles.css b/src/styles.css
+index 56022a8..0a84747 100644
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -1,7 +1,17 @@
+ /* You can add global styles to this file, and also import other style files */
+ 
+-@import 'tailwindcss';
+ @import url('https://fonts.googleapis.com/css2?family=Geist:ital,wght@0,100..900;1,100..900&display=swap');
++@import 'tailwindcss';
++
++:root {
++  --bg: #12120d;
++  --fg: #dcdcd8;
++  --muted: #5e5c5c;
++  --surface: #171717;
++  --accent: #e8a33d;
++  --accent-soft: rgba(232, 163, 61, 0.35);
++  --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
++}
+ 
+ *{
+   margin: 0;
+@@ -11,12 +21,87 @@
+ }
+ body {
+   margin: 0 auto;
+-  background-color: #12120D;
++  background-color: var(--bg);
+   font-family: "Geist";
+   font-weight: 250;
+-  color: #DCDCD8;
++  color: var(--fg);
+   max-width: 40%;
+   width: min(100%, 650px);
+ }
+ 
++/* ---------- scroll reveal ---------- */
++.reveal {
++  opacity: 0;
++  transform: translateY(28px);
++  transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
++  will-change: opacity, transform;
++}
++.reveal.revealed {
++  opacity: 1;
++  transform: none;
++}
++.reveal hr {
++  transform: scaleX(0);
++  transform-origin: center;
++  transition: transform 900ms var(--ease-out) 120ms;
++}
++.reveal.revealed hr {
++  transform: scaleX(1);
++}
++
++/* ---------- hover "spark" for keywords ---------- */
++.spark {
++  position: relative;
++  color: inherit;
++  cursor: default;
++  background-image: linear-gradient(var(--accent), var(--accent));
++  background-repeat: no-repeat;
++  background-position: left bottom;
++  background-size: 0% 1px;
++  transition: background-size 450ms var(--ease-out), color 450ms var(--ease-out), text-shadow 450ms var(--ease-out);
++}
++.spark:hover,
++.spark:focus-visible {
++  color: #f3d9a4;
++  background-size: 100% 1px;
++  text-shadow: 0 0 18px var(--accent-soft);
++}
++
++/* ---------- underline-draw link style, reused by footer/work links ---------- */
++.link-draw {
++  position: relative;
++  text-decoration: none;
++  color: inherit;
++  transition: color 300ms ease;
++}
++.link-draw::after {
++  content: '';
++  position: absolute;
++  left: 0;
++  bottom: -2px;
++  width: 0%;
++  height: 1px;
++  background: var(--accent);
++  transition: width 350ms var(--ease-out);
++}
++.link-draw:hover,
++.link-draw:focus-visible {
++  color: #f3d9a4;
++}
++.link-draw:hover::after,
++.link-draw:focus-visible::after {
++  width: 100%;
++}
++
++@media (prefers-reduced-motion: reduce) {
++  *,
++  *::before,
++  *::after {
++    animation-duration: 0.01ms !important;
++    animation-iteration-count: 1 !important;
++    transition-duration: 0.01ms !important;
++    scroll-behavior: auto !important;
++  }
++}
++
+ 
