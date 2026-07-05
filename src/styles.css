@@ -8,8 +8,8 @@
   --fg: #dcdcd8;
   --muted: #5e5c5c;
   --surface: #171717;
-  --accent: #e8a33d;
-  --accent-soft: rgba(232, 163, 61, 0.35);
+  --accent: white;
+  --accent-soft: #F44336;
   --ease-out: cubic-bezier(0.16, 0.84, 0.44, 1);
 }
 
