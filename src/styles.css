@@ -11,11 +11,11 @@
 }
 body {
   margin: 0 auto;
-  background-color: #171717;
+  background-color: #12120D;
   font-family: "Geist";
   font-weight: 250;
   color: #DCDCD8;
-  max-width: 650px;
+  max-width: 40%;
   width: min(100%, 650px);
 }
 

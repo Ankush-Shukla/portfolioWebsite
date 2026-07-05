@@ -1,1 +1,33 @@
-<p>hover-card works!</p>
+<ng-container *ngIf="state$ | async as state">
+  <div
+    #card
+    class="hover-card"
+    role="tooltip"
+    [class.visible]="state.visible"
+    [style.left.px]="adjustedLeft"
+    [style.top.px]="adjustedTop"
+    *ngIf="state.visible"
+  >
+    <ng-container *ngIf="state.template; else defaultCard">
+      <ng-container *ngTemplateOutlet="state.template"></ng-container>
+    </ng-container>
+
+    <ng-template #defaultCard>
+      <div class="hover-card-header">
+        <div>
+          <p class="hover-card-title">{{ state.data?.title }}</p>
+          <p class="hover-card-subtitle">{{ state.data?.subtitle }}</p>
+        </div>
+        <img *ngIf="state.data?.image" [src]="state.data?.image" alt="" class="hover-card-image" />
+      </div>
+
+      <p class="hover-card-description">{{ state.data?.description }}</p>
+
+      <div class="hover-card-tags" *ngIf="state.data?.tags?.length">
+        <span class="hover-card-tag" *ngFor="let tag of state.data?.tags">{{ tag }}</span>
+      </div>
+
+      <p class="hover-card-footer" *ngIf="state.data?.footer">{{ state.data?.footer }}</p>
+    </ng-template>
+  </div>
+</ng-container>

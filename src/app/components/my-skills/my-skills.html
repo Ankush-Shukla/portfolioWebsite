@@ -1,11 +1,9 @@
 <section class="skills">
-	
-	<div class="logos-grid grid grid-cols-6 ">
-		<ng-container *ngFor="let logo of logos">
-			<figure class="logo-item ">
-				<img class="h-8" [src]="logo" [alt]="altFromPath(logo)" loading="lazy" />
-				
-			</figure>
-		</ng-container>
-	</div>
+  <div class="logos-grid grid grid-cols-6 gap-4">
+    <ng-container *ngFor="let skill of skills">
+      <figure class="logo-item" appHoverCard [hoverCard]="skill.hoverCard">
+        <img class="h-8" [src]="skill.path" [alt]="skill.name" loading="lazy" />
+      </figure>
+    </ng-container>
+  </div>
 </section>
