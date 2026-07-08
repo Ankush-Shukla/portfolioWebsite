@@ -6,3 +6,8 @@
     color: var(--muted);
     font-size: 0.95em;
 }
+
+a{
+    color : #DCDCD8 !important;
+    text-decoration:underline dotted !important;
+}
