@@ -7,11 +7,11 @@ import { MySkills } from '../my-skills/my-skills';
 import { Contact } from '../contact/contact';
 import { Footer } from '../footer/footer';
 import { Divider } from '../divider/divider';
-import { RevealDirective } from '../../shared/reveal.directive';
+// import { RevealDirective } from '../../shared/reveal.directive';
 
 @Component({
   selector: 'app-landing-page',
-  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer,Divider,RevealDirective],
+  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer,Divider,],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })

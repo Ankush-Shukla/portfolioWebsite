@@ -25,8 +25,16 @@ body {
   font-family: "Geist";
   font-weight: 250;
   color: var(--fg);
-  max-width: 40%;
-  width: min(100%, 650px);
+  width: 100%;
+  max-width: 650px;
+  padding-inline: 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-inline: 16px;
+  }
 }
 
 /* ---------- scroll reveal ---------- */
@@ -53,18 +61,23 @@ body {
 .spark {
   position: relative;
   color: inherit;
-  cursor: default;
+  cursor: help;
   background-image: linear-gradient(var(--accent), var(--accent));
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size: 0% 1px;
   transition: background-size 450ms var(--ease-out), color 450ms var(--ease-out), text-shadow 450ms var(--ease-out);
+  border-radius: 2px;
 }
 .spark:hover,
 .spark:focus-visible {
   color: #f3d9a4;
   background-size: 100% 1px;
   text-shadow: 0 0 18px var(--accent-soft);
+}
+.spark:focus-visible {
+  outline: 1px solid var(--accent-soft);
+  outline-offset: 3px;
 }
 
 /* ---------- underline-draw link style, reused by footer/work links ---------- */

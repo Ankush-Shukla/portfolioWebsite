@@ -72,3 +72,10 @@
     transform: none;
   }
 }
+
+@media (max-width: 360px) {
+  .loader-mark span {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+}

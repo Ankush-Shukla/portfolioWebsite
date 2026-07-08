@@ -14,6 +14,7 @@
     margin: 4px;
     justify-content: space-around;
     transition: transform 400ms var(--ease-out), box-shadow 400ms var(--ease-out);
+    flex-shrink: 0;
 }
 
 .profile-pic:hover{
@@ -26,15 +27,33 @@
     padding:8px 8px 8px 0px ;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 .name-tagline{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin:4px;
+    min-width: 0;
 }
 
 .tags{
     margin:3px 3px 3px 10px;
+}
+
+@media (max-width: 480px) {
+  .name{
+    font-size: 24px;
+  }
+
+  .name-tagline{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tags{
+    margin: 4px 3px 3px 0;
+  }
 }

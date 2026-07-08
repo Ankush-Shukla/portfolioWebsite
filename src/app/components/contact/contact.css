@@ -29,6 +29,14 @@ textarea:active {
     align-items: center;
 }
 
+@media (max-width: 480px) {
+  .form-group{
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin: 16px 4px;
+  }
+}
+
 .contact-section{
     display: flex;
     flex-direction: row;
