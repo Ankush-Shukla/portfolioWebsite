@@ -1,0 +1,17 @@
+<div class="inspiration-page" appReveal>
+  <app-divider [title]="'Inspiration'" />
+
+  <p class="page-intro">People whose work, teaching, and craft I keep coming back to.</p>
+
+  <ul class="entries">
+    <li *ngFor="let person of people">
+      <a class="entry-link" [href]="person.link" target="_blank" rel="noopener">
+        <span class="entry-title">{{ person.name }}</span>
+        <span class="entry-role">{{ person.role }}</span>
+        <p class="entry-summary">{{ person.description }}</p>
+      </a>
+    </li>
+  </ul>
+
+  <p class="empty-state">More names get added here as the list keeps growing.</p>
+</div>

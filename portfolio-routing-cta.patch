@@ -1,0 +1,719 @@
+diff --git a/src/app/app.html b/src/app/app.html
+index b04f2ab..8eeae0b 100644
+--- a/src/app/app.html
++++ b/src/app/app.html
+@@ -6,6 +6,7 @@
+ </div>
+ 
+ <div class="site" [class.site--visible]="!loading()">
+-  <app-landing-page></app-landing-page>
++  <app-nav-bar></app-nav-bar>
++  <router-outlet></router-outlet>
+   <app-hover-card></app-hover-card>
+ </div>
+diff --git a/src/app/app.routes.ts b/src/app/app.routes.ts
+index dc39edb..5af0da9 100644
+--- a/src/app/app.routes.ts
++++ b/src/app/app.routes.ts
+@@ -1,3 +1,20 @@
+ import { Routes } from '@angular/router';
+ 
+-export const routes: Routes = [];
++export const routes: Routes = [
++  {
++    path: '',
++    loadComponent: () =>
++      import('./components/landing-page/landing-page').then((m) => m.LandingPage),
++  },
++  {
++    path: 'writing',
++    loadComponent: () =>
++      import('./components/writing-page/writing-page').then((m) => m.WritingPage),
++  },
++  {
++    path: 'inspiration',
++    loadComponent: () =>
++      import('./components/inspiration-page/inspiration-page').then((m) => m.InspirationPage),
++  },
++  { path: '**', redirectTo: '' },
++];
+diff --git a/src/app/app.spec.ts b/src/app/app.spec.ts
+index 3d52632..d121d9b 100644
+--- a/src/app/app.spec.ts
++++ b/src/app/app.spec.ts
+@@ -1,10 +1,13 @@
+ import { TestBed } from '@angular/core/testing';
++import { provideRouter } from '@angular/router';
+ import { App } from './app';
++import { routes } from './app.routes';
+ 
+ describe('App', () => {
+   beforeEach(async () => {
+     await TestBed.configureTestingModule({
+       imports: [App],
++      providers: [provideRouter(routes)],
+     }).compileComponents();
+   });
+ 
+diff --git a/src/app/app.ts b/src/app/app.ts
+index e80fbb8..4a8d11a 100644
+--- a/src/app/app.ts
++++ b/src/app/app.ts
+@@ -1,10 +1,11 @@
+ import { Component, OnInit, signal } from '@angular/core';
+-import { LandingPage } from './components/landing-page/landing-page';
++import { RouterOutlet } from '@angular/router';
+ import { HoverCard } from './components/hover-card/hover-card';
++import { NavBar } from './components/nav-bar/nav-bar';
+ 
+ @Component({
+   selector: 'app-root',
+-  imports: [LandingPage, HoverCard],
++  imports: [RouterOutlet, HoverCard, NavBar],
+   templateUrl: './app.html',
+   styleUrl: './app.css',
+ })
+diff --git a/src/app/components/footer/footer.css b/src/app/components/footer/footer.css
+index caae458..53dd2f8 100644
+--- a/src/app/components/footer/footer.css
++++ b/src/app/components/footer/footer.css
+@@ -28,4 +28,20 @@
+     align-items: center;
+     justify-content: center;
+     margin:16px;
++}
++
++.wrap-cta{
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    justify-content: center;
++    gap: 16px;
++    margin: 24px 16px 8px;
++    text-align: center;
++}
++
++.cta-line{
++    font-size: 1.05rem;
++    font-weight: 500;
++    color: var(--fg);
+ }
+\ No newline at end of file
+diff --git a/src/app/components/footer/footer.html b/src/app/components/footer/footer.html
+index b766bb0..d302a3e 100644
+--- a/src/app/components/footer/footer.html
++++ b/src/app/components/footer/footer.html
+@@ -1,13 +1,20 @@
+ <div class="main-container">
+     <div class="wrap-sign"><img class="sign h-8" src="/original-image.svg" alt=""></div>
+-    
++
+     <div class="wrap-quote">
+         <p class="quote">"Never regret thy fall, O Icarus of the fearless flight, For the greatest tragedy of them all Is never to feel the burning light."</p>
+     </div>
++
++    <div class="wrap-cta">
++        <p class="cta-line">Enjoyed the site? Let's build something together.</p>
++        <a class="btn-cta" href="https://www.linkedin.com/in/ankush-shukla/" target="_blank" rel="noopener">
++            <span>Let's connect</span>
++        </a>
++    </div>
++
+     <ul class="socials">
+-        <li><a class="link-draw" href="" target="_blank" rel="noopener">Github</a></li>
+-        <li><a class="link-draw" href="" target="_blank" rel="noopener">LinkedIn</a></li>
+-        <li><a class="link-draw" href="" target="_blank" rel="noopener">X</a></li>
+-        <li><a class="link-draw" href="" target="_blank" rel="noopener">Instagram</a></li>
++        <li><a class="link-draw" href="https://github.com/Ankush-Shukla" target="_blank" rel="noopener">Github</a></li>
++        <li><a class="link-draw" href="https://www.linkedin.com/in/ankush-shukla/" target="_blank" rel="noopener">LinkedIn</a></li>
++        <li><a class="link-draw" href="https://www.instagram.com/ankush.shukla__/" target="_blank" rel="noopener">Instagram</a></li>
+     </ul>
+-</div>
+\ No newline at end of file
++</div>
+diff --git a/src/app/components/inspiration-page/inspiration-page.css b/src/app/components/inspiration-page/inspiration-page.css
+new file mode 100644
+index 0000000..640af7d
+--- /dev/null
++++ b/src/app/components/inspiration-page/inspiration-page.css
+@@ -0,0 +1,3 @@
++.inspiration-page {
++  padding-bottom: 12px;
++}
+diff --git a/src/app/components/inspiration-page/inspiration-page.html b/src/app/components/inspiration-page/inspiration-page.html
+new file mode 100644
+index 0000000..efdadd7
+--- /dev/null
++++ b/src/app/components/inspiration-page/inspiration-page.html
+@@ -0,0 +1,17 @@
++<div class="inspiration-page" appReveal>
++  <app-divider [title]="'Inspiration'" />
++
++  <p class="page-intro">People whose work, teaching, and craft I keep coming back to.</p>
++
++  <ul class="entries">
++    <li *ngFor="let person of people">
++      <a class="entry-link" [href]="person.link" target="_blank" rel="noopener">
++        <span class="entry-title">{{ person.name }}</span>
++        <span class="entry-role">{{ person.role }}</span>
++        <p class="entry-summary">{{ person.description }}</p>
++      </a>
++    </li>
++  </ul>
++
++  <p class="empty-state">More names get added here as the list keeps growing.</p>
++</div>
+diff --git a/src/app/components/inspiration-page/inspiration-page.ts b/src/app/components/inspiration-page/inspiration-page.ts
+new file mode 100644
+index 0000000..b665856
+--- /dev/null
++++ b/src/app/components/inspiration-page/inspiration-page.ts
+@@ -0,0 +1,44 @@
++import { Component } from '@angular/core';
++import { CommonModule } from '@angular/common';
++import { Divider } from '../divider/divider';
++import { RevealDirective } from '../../shared/reveal.directive';
++
++interface Inspiration {
++  name: string;
++  role: string;
++  description: string;
++  link: string;
++}
++
++@Component({
++  selector: 'app-inspiration-page',
++  imports: [CommonModule, Divider, RevealDirective],
++  templateUrl: './inspiration-page.html',
++  styleUrl: './inspiration-page.css',
++})
++export class InspirationPage {
++  // Add more names any time — same shape, no new markup needed.
++  protected readonly people: Inspiration[] = [
++    {
++      name: 'Manu Arora',
++      role: 'Founder, Aceternity UI',
++      description:
++        "Builds beautiful, well-crafted UI components and design systems for developers — a real influence on how this site looks and feels.",
++      link: 'https://www.manuarora.in',
++    },
++    {
++      name: 'Raj Vikramaditya (Striver)',
++      role: 'Founder, takeUforward',
++      description:
++        'Ex-Google engineer teaching DSA and interview prep to well over a million learners, mostly for free.',
++      link: 'https://takeuforward.org',
++    },
++    {
++      name: 'Harkirat Singh',
++      role: 'Founder, 100xDevs',
++      description:
++        'Mentors developers through hands-on, project-based cohorts covering full-stack development, DevOps, and system design.',
++      link: 'https://harkirat.classx.co.in',
++    },
++  ];
++}
+diff --git a/src/app/components/landing-page/landing-page.html b/src/app/components/landing-page/landing-page.html
+index c2bf38b..a02a2f8 100644
+--- a/src/app/components/landing-page/landing-page.html
++++ b/src/app/components/landing-page/landing-page.html
+@@ -1,7 +1,4 @@
+-<!-- <app-nav-bar></app-nav-bar> -->
+-
+ <div class="intro" appReveal>
+-    <app-divider [title]="'Hello There!'" />
+     <app-header></app-header>
+     <app-about-me></app-about-me>
+ </div>
+@@ -9,7 +6,5 @@
+ <app-my-work appReveal></app-my-work>
+ <app-divider [title]="'Stuff I know about'" appReveal />
+ <app-my-skills appReveal></app-my-skills>
+-<!-- <app-divider [title]="'Let\'s Talk'" appReveal />
+-<app-contact appReveal></app-contact> -->
+ <app-divider [title]="'Thanks for visiting :)'" appReveal />
+ <app-footer appReveal></app-footer>
+diff --git a/src/app/components/landing-page/landing-page.ts b/src/app/components/landing-page/landing-page.ts
+index 2932676..654a1c4 100644
+--- a/src/app/components/landing-page/landing-page.ts
++++ b/src/app/components/landing-page/landing-page.ts
+@@ -1,17 +1,15 @@
+ import { Component } from '@angular/core';
+ import { AboutMe } from '../about-me/about-me';
+-import { NavBar } from '../nav-bar/nav-bar';
+ import { MyWork } from '../my-work/my-work';
+ import { Header } from '../header/header';
+ import { MySkills } from '../my-skills/my-skills';
+-import { Contact } from '../contact/contact';
+ import { Footer } from '../footer/footer';
+ import { Divider } from '../divider/divider';
+-// import { RevealDirective } from '../../shared/reveal.directive';
++import { RevealDirective } from '../../shared/reveal.directive';
+ 
+ @Component({
+   selector: 'app-landing-page',
+-  imports: [AboutMe,NavBar,MyWork,Header,MySkills,Contact,Footer,Divider,],
++  imports: [AboutMe, MyWork, Header, MySkills, Footer, Divider, RevealDirective],
+   templateUrl: './landing-page.html',
+   styleUrl: './landing-page.css',
+ })
+diff --git a/src/app/components/my-work/my-work.css b/src/app/components/my-work/my-work.css
+index 9a06094..b11d5de 100644
+--- a/src/app/components/my-work/my-work.css
++++ b/src/app/components/my-work/my-work.css
+@@ -3,6 +3,20 @@ span{
+     transition: color 350ms var(--ease-out);
+ }
+ 
++span::after{
++    content: '→';
++    display: inline-block;
++    margin-left: 8px;
++    opacity: 0;
++    transform: translateX(-6px);
++    transition: opacity 350ms var(--ease-out), transform 350ms var(--ease-out);
++}
++
++.projects-list li:hover span::after{
++    opacity: 1;
++    transform: translateX(0);
++}
++
+ ul{
+     display: grid;
+     gap:24px;
+diff --git a/src/app/components/nav-bar/nav-bar.css b/src/app/components/nav-bar/nav-bar.css
+index 800beb0..46aeaac 100644
+--- a/src/app/components/nav-bar/nav-bar.css
++++ b/src/app/components/nav-bar/nav-bar.css
+@@ -1,6 +1,59 @@
+-.navbar-list{
+-    display: flex;
+-    flex-direction: row;
+-    gap: 10px;
+-    align-items: center;
+-}
+\ No newline at end of file
++.site-nav {
++  margin: 24px 0 8px;
++}
++
++.navbar-list {
++  display: flex;
++  flex-direction: row;
++  gap: 22px;
++  align-items: center;
++  list-style: none;
++}
++
++.nav-link {
++  position: relative;
++  text-decoration: none;
++  color: var(--muted);
++  font-size: 0.95rem;
++  transition: color 300ms ease;
++}
++
++.nav-link::after {
++  content: '';
++  position: absolute;
++  left: 0;
++  bottom: -4px;
++  width: 0%;
++  height: 1px;
++  background: var(--accent);
++  transition: width 350ms var(--ease-out);
++}
++
++.nav-link:hover,
++.nav-link:focus-visible {
++  color: var(--fg);
++}
++
++.nav-link:hover::after,
++.nav-link:focus-visible::after {
++  width: 100%;
++}
++
++.nav-link.active {
++  color: var(--fg);
++  font-weight: 600;
++}
++
++.nav-link.active::after {
++  width: 100%;
++}
++
++@media (max-width: 480px) {
++  .navbar-list {
++    gap: 14px;
++  }
++
++  .nav-link {
++    font-size: 0.88rem;
++  }
++}
+diff --git a/src/app/components/nav-bar/nav-bar.html b/src/app/components/nav-bar/nav-bar.html
+index c73e5ff..ab5b1c2 100644
+--- a/src/app/components/nav-bar/nav-bar.html
++++ b/src/app/components/nav-bar/nav-bar.html
+@@ -1,19 +1,19 @@
+-<nav >
++<nav class="site-nav" aria-label="Primary">
+   <ul class="navbar-list">
+-    <a href="#">
+-      <li>
+-       Home
+-      </li>
+-    </a>
+-    <a href="#">
+-      <li>
+-        Writing
+-      </li>
+-    </a>
+-    <a href="#">
+-      <li>
+-       Inspiration
+-      </li>
+-    </a>
++    <li>
++      <a
++        class="nav-link"
++        routerLink="/"
++        routerLinkActive="active"
++        [routerLinkActiveOptions]="{ exact: true }"
++        >Home</a
++      >
++    </li>
++    <li>
++      <a class="nav-link" routerLink="/writing" routerLinkActive="active">Writing</a>
++    </li>
++    <li>
++      <a class="nav-link" routerLink="/inspiration" routerLinkActive="active">Inspiration</a>
++    </li>
+   </ul>
+ </nav>
+diff --git a/src/app/components/nav-bar/nav-bar.spec.ts b/src/app/components/nav-bar/nav-bar.spec.ts
+index 8f09a2e..8a8799b 100644
+--- a/src/app/components/nav-bar/nav-bar.spec.ts
++++ b/src/app/components/nav-bar/nav-bar.spec.ts
+@@ -1,4 +1,5 @@
+ import { ComponentFixture, TestBed } from '@angular/core/testing';
++import { provideRouter } from '@angular/router';
+ 
+ import { NavBar } from './nav-bar';
+ 
+@@ -9,6 +10,7 @@ describe('NavBar', () => {
+   beforeEach(async () => {
+     await TestBed.configureTestingModule({
+       imports: [NavBar],
++      providers: [provideRouter([])],
+     }).compileComponents();
+ 
+     fixture = TestBed.createComponent(NavBar);
+diff --git a/src/app/components/nav-bar/nav-bar.ts b/src/app/components/nav-bar/nav-bar.ts
+index cfe13c7..f61c9c8 100644
+--- a/src/app/components/nav-bar/nav-bar.ts
++++ b/src/app/components/nav-bar/nav-bar.ts
+@@ -1,8 +1,9 @@
+ import { Component } from '@angular/core';
++import { RouterLink, RouterLinkActive } from '@angular/router';
+ 
+ @Component({
+   selector: 'app-nav-bar',
+-  imports: [],
++  imports: [RouterLink, RouterLinkActive],
+   templateUrl: './nav-bar.html',
+   styleUrl: './nav-bar.css',
+ })
+diff --git a/src/app/components/writing-page/writing-page.css b/src/app/components/writing-page/writing-page.css
+new file mode 100644
+index 0000000..66ccef8
+--- /dev/null
++++ b/src/app/components/writing-page/writing-page.css
+@@ -0,0 +1,3 @@
++.writing-page {
++  padding-bottom: 12px;
++}
+diff --git a/src/app/components/writing-page/writing-page.html b/src/app/components/writing-page/writing-page.html
+new file mode 100644
+index 0000000..2638e32
+--- /dev/null
++++ b/src/app/components/writing-page/writing-page.html
+@@ -0,0 +1,38 @@
++<div class="writing-page" appReveal>
++  <app-divider [title]="'Writing'" />
++
++  <p class="page-intro">
++    Blog posts, research notes, and things I've been learning along the way.
++  </p>
++
++  <app-divider [title]="'Latest posts'" />
++
++  <ul class="entries" *ngIf="posts.length; else noPosts">
++    <li *ngFor="let post of posts">
++      <a class="entry-link" [href]="post.link" target="_blank" rel="noopener">
++        <span class="entry-tag">{{ post.tag }}</span>
++        <span class="entry-title">{{ post.title }}</span>
++        <p class="entry-summary">{{ post.summary }}</p>
++        <span class="entry-date">{{ post.date }}</span>
++      </a>
++    </li>
++  </ul>
++  <ng-template #noPosts>
++    <p class="empty-state">Nothing published yet — check back soon.</p>
++  </ng-template>
++
++  <app-divider [title]="'From LinkedIn'" />
++
++  <ul class="entries" *ngIf="linkedinPosts.length; else noLinkedIn">
++    <li *ngFor="let post of linkedinPosts">
++      <a class="entry-link" [href]="post.url" target="_blank" rel="noopener">
++        <span class="entry-tag">LinkedIn</span>
++        <p class="entry-summary">{{ post.caption }}</p>
++        <span class="entry-date">{{ post.date }}</span>
++      </a>
++    </li>
++  </ul>
++  <ng-template #noLinkedIn>
++    <p class="empty-state">LinkedIn posts will show up here once added.</p>
++  </ng-template>
++</div>
+diff --git a/src/app/components/writing-page/writing-page.ts b/src/app/components/writing-page/writing-page.ts
+new file mode 100644
+index 0000000..1514315
+--- /dev/null
++++ b/src/app/components/writing-page/writing-page.ts
+@@ -0,0 +1,35 @@
++import { Component } from '@angular/core';
++import { CommonModule } from '@angular/common';
++import { Divider } from '../divider/divider';
++import { RevealDirective } from '../../shared/reveal.directive';
++
++interface WritingEntry {
++  title: string;
++  summary: string;
++  date: string;
++  tag: 'Blog' | 'Research';
++  link: string;
++}
++
++interface LinkedInEntry {
++  caption: string;
++  date: string;
++  url: string;
++}
++
++@Component({
++  selector: 'app-writing-page',
++  imports: [CommonModule, Divider, RevealDirective],
++  templateUrl: './writing-page.html',
++  styleUrl: './writing-page.css',
++})
++export class WritingPage {
++  // Add real posts here as you publish them — each becomes a card below.
++  // Example:
++  // { title: 'Why I switched to zoneless Angular', summary: '...', date: 'Jul 2026', tag: 'Blog', link: 'https://...' }
++  protected readonly posts: WritingEntry[] = [];
++
++  // Add links to your own LinkedIn posts here — caption is your own one-line summary.
++  // Example: { caption: 'Shared my thoughts on...', date: 'Jul 2026', url: 'https://www.linkedin.com/posts/...' }
++  protected readonly linkedinPosts: LinkedInEntry[] = [];
++}
+diff --git a/src/app/shared/reveal.directive.ts b/src/app/shared/reveal.directive.ts
+new file mode 100644
+index 0000000..3cf1df6
+--- /dev/null
++++ b/src/app/shared/reveal.directive.ts
+@@ -0,0 +1,51 @@
++import { AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular/core';
++
++/**
++ * Fades + lifts an element into place the first time it scrolls into view.
++ * Usage: <section appReveal></section>  or  <section appReveal [revealDelay]="120"></section>
++ */
++@Directive({
++  selector: '[appReveal]',
++  standalone: true,
++})
++export class RevealDirective implements AfterViewInit, OnDestroy {
++  @Input() revealDelay = 0;
++
++  private observer?: IntersectionObserver;
++
++  constructor(private readonly el: ElementRef<HTMLElement>) {}
++
++  ngAfterViewInit(): void {
++    const node = this.el.nativeElement;
++    node.classList.add('reveal');
++
++    if (this.revealDelay) {
++      node.style.transitionDelay = `${this.revealDelay}ms`;
++    }
++
++    const prefersReducedMotion =
++      typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
++    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
++      node.classList.add('revealed');
++      return;
++    }
++
++    this.observer = new IntersectionObserver(
++      (entries) => {
++        for (const entry of entries) {
++          if (entry.isIntersecting) {
++            node.classList.add('revealed');
++            this.observer?.unobserve(node);
++          }
++        }
++      },
++      { threshold: 0.15, rootMargin: '0px 0px -60px 0px' },
++    );
++
++    this.observer.observe(node);
++  }
++
++  ngOnDestroy(): void {
++    this.observer?.disconnect();
++  }
++}
+diff --git a/src/styles.css b/src/styles.css
+index eb3a445..6bfdc38 100644
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -106,6 +106,135 @@ body {
+   width: 100%;
+ }
+ 
++/* ---------- reusable content list (writing / inspiration pages) ---------- */
++.page-intro {
++  color: var(--fg);
++  opacity: 0.85;
++  margin: 8px 0 20px;
++}
++
++.entries {
++  display: grid;
++  gap: 20px;
++  list-style: none;
++}
++
++.entry-link {
++  display: block;
++  text-decoration: none;
++  color: inherit;
++  padding: 14px 16px;
++  margin: -14px -16px;
++  border-radius: 12px;
++  border: 1px solid transparent;
++  transition: border-color 350ms var(--ease-out), background-color 350ms var(--ease-out),
++    transform 350ms var(--ease-out);
++}
++
++.entry-link:hover,
++.entry-link:focus-visible {
++  border-color: var(--accent-soft);
++  background-color: rgba(255, 255, 255, 0.03);
++  transform: translateX(6px);
++}
++
++.entry-tag,
++.entry-role {
++  display: inline-block;
++  font-size: 0.72rem;
++  text-transform: uppercase;
++  letter-spacing: 0.03em;
++  color: var(--accent);
++  margin: 0 0 6px;
++}
++
++.entry-tag {
++  padding: 0.2rem 0.6rem;
++  border-radius: 999px;
++  background: rgba(232, 163, 61, 0.12);
++}
++
++.entry-title {
++  display: block;
++  font-weight: 600;
++  transition: color 350ms var(--ease-out);
++}
++
++.entry-link:hover .entry-title,
++.entry-link:focus-visible .entry-title {
++  color: var(--accent);
++}
++
++.entry-summary {
++  color: var(--fg);
++  opacity: 0.8;
++  font-size: 0.92rem;
++  margin: 4px 0 0;
++}
++
++.entry-date {
++  display: block;
++  color: var(--muted);
++  font-size: 0.8rem;
++  margin-top: 6px;
++}
++
++.empty-state {
++  color: var(--muted);
++  font-style: italic;
++  font-size: 0.9rem;
++  margin: 8px 0 16px;
++}
++
++/* ---------- primary CTA button, sweep-fill on hover ---------- */
++.btn-cta {
++  display: inline-flex;
++  align-items: center;
++  gap: 8px;
++  position: relative;
++  overflow: hidden;
++  padding: 12px 24px;
++  border-radius: 10px;
++  border: 1px solid var(--accent-soft);
++  background: transparent;
++  color: var(--fg);
++  text-decoration: none;
++  font-size: 0.95rem;
++  transition: color 400ms var(--ease-out), border-color 400ms var(--ease-out);
++}
++
++.btn-cta::before {
++  content: '';
++  position: absolute;
++  inset: 0;
++  background: var(--accent);
++  transform: scaleX(0);
++  transform-origin: left;
++  transition: transform 450ms var(--ease-out);
++  z-index: 0;
++}
++
++.btn-cta span {
++  position: relative;
++  z-index: 1;
++  transition: color 400ms var(--ease-out);
++}
++
++.btn-cta:hover,
++.btn-cta:focus-visible {
++  border-color: var(--accent);
++}
++
++.btn-cta:hover::before,
++.btn-cta:focus-visible::before {
++  transform: scaleX(1);
++}
++
++.btn-cta:hover span,
++.btn-cta:focus-visible span {
++  color: var(--bg);
++}
++
+ @media (prefers-reduced-motion: reduce) {
+   *,
+   *::before,

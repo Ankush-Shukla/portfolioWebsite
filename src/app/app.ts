@@ -1,10 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { LandingPage } from './components/landing-page/landing-page';
+import { RouterOutlet } from '@angular/router';
 import { HoverCard } from './components/hover-card/hover-card';
+import { NavBar } from './components/nav-bar/nav-bar';
 
 @Component({
   selector: 'app-root',
-  imports: [LandingPage, HoverCard],
+  imports: [RouterOutlet, HoverCard, NavBar],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

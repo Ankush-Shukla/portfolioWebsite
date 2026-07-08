@@ -9,5 +9,5 @@
 
 a{
     color : #DCDCD8 !important;
-    text-decoration:underline dotted !important;
+    text-decoration:underline dotted #DCDCD8  !important;
 }

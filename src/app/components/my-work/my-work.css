@@ -3,6 +3,20 @@ span{
     transition: color 350ms var(--ease-out);
 }
 
+span::after{
+    content: '→';
+    display: inline-block;
+    margin-left: 8px;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 350ms var(--ease-out), transform 350ms var(--ease-out);
+}
+
+.projects-list li:hover span::after{
+    opacity: 1;
+    transform: translateX(0);
+}
+
 ul{
     display: grid;
     gap:24px;
