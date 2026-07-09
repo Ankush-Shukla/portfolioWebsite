@@ -5,18 +5,6 @@
     Blog posts, research notes, and things I've been learning along the way.
   </p>
 
-  <app-divider [title]="'Latest posts'" />
-
-  <ul class="entries" *ngIf="posts.length; else noPosts">
-    <li *ngFor="let post of posts">
-      <a class="entry-link" [href]="post.link" target="_blank" rel="noopener">
-        <span class="entry-tag">{{ post.tag }}</span>
-        <span class="entry-title">{{ post.title }}</span>
-        <p class="entry-summary">{{ post.summary }}</p>
-        <span class="entry-date">{{ post.date }}</span>
-      </a>
-    </li>
-  </ul>
   <ng-template #noPosts>
     <p class="empty-state">Nothing published yet — check back soon.</p>
   </ng-template>
@@ -33,6 +21,8 @@
     </li>
   </ul>
   <ng-template #noLinkedIn>
-    <p class="empty-state">LinkedIn posts will show up here once added.</p>
+    <!-- <p class="empty-state">LinkedIn posts will show up here once added.</p>
+      -->
+    <iframe src="https://widgets.sociablekit.com/linkedin-profile-posts/iframe/25696146" frameborder="0" width="100%" height="1000px"></iframe>
   </ng-template>
 </div>
