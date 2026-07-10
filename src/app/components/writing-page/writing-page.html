@@ -1,14 +1,20 @@
 <div class="writing-page" appReveal>
   <app-divider [title]="'Writing'" />
 
-  <p class="page-intro">
-    Blog posts, research notes, and things I've been learning along the way.
-  </p>
 
-  <ng-template #noPosts>
-    <p class="empty-state">Nothing published yet — check back soon.</p>
-  </ng-template>
-
+<ul class="entries" *ngIf="posts.length; else noPosts">
+  <li *ngFor="let post of posts">
+    <a class="entry-link" [routerLink]="['/writing', post.slug]">
+      <span class="entry-tag">{{ post.tag }}</span>
+      <span class="entry-title">{{ post.title }}</span>
+      <p class="entry-summary">{{ post.summary }}</p>
+      <span class="entry-date">{{ post.date }}</span>
+    </a>
+  </li>
+</ul>
+<ng-template #noPosts>
+  <p class="empty-state">Nothing published yet — check back soon.</p>
+</ng-template>
   <app-divider [title]="'From LinkedIn'" />
 
   <ul class="entries" *ngIf="linkedinPosts.length; else noLinkedIn">

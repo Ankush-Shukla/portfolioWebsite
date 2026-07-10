@@ -16,5 +16,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/inspiration-page/inspiration-page').then((m) => m.InspirationPage),
   },
+  {
+  path: 'writing/:slug',
+  loadComponent: () =>
+    import('./components/writing-page/blog-post-page/blog-post-page').then((m) => m.BlogPostPage),
+},
   { path: '**', redirectTo: '' },
 ];
