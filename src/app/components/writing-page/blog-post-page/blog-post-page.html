@@ -1,0 +1,18 @@
+<article class="blog-post" *ngIf="post() as p; else notFound">
+  <a class="back-link link-draw" routerLink="/writing">← Back to writing</a>
+
+  <span class="entry-tag">{{ p.tag }}</span>
+  <h1 class="post-title">{{ p.title }}</h1>
+  <span class="entry-date">{{ p.date }}</span>
+
+  <div class="post-content">
+    <p *ngFor="let paragraph of p.content">{{ paragraph }}</p>
+  </div>
+</article>
+
+<ng-template #notFound>
+  <div class="blog-post">
+    <a class="back-link link-draw" routerLink="/writing">← Back to writing</a>
+    <p class="empty-state">Couldn't find that post.</p>
+  </div>
+</ng-template>

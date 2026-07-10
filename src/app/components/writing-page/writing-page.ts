@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Divider } from '../divider/divider';
 import { RevealDirective } from '../../shared/reveal.directive';
-
-interface WritingEntry {
-  title: string;
-  summary: string;
-  date: string;
-  tag: 'Blog' | 'Research';
-  link: string;
-}
+import { BLOG_POSTS } from '../../shared/blog-posts.data';
 
 interface LinkedInEntry {
   caption: string;
@@ -19,19 +13,15 @@ interface LinkedInEntry {
 
 @Component({
   selector: 'app-writing-page',
-  imports: [CommonModule, Divider, RevealDirective],
+  imports: [CommonModule, RouterLink, Divider, RevealDirective],
   templateUrl: './writing-page.html',
   styleUrl: './writing-page.css',
 })
 export class WritingPage {
-  // Add real posts here as you publish them — each becomes a card below.
-  // Example:
-  // { title: 'Why I switched to zoneless Angular', summary: '...', date: 'Jul 2026', tag: 'Blog', link: 'https://...' }
-  protected readonly posts: WritingEntry[] = [];
+  // Posts live in shared/blog-posts.data.ts — add real ones there and they
+  // show up here automatically, each opening on its own page on this site.
+  protected readonly posts = BLOG_POSTS;
 
   // Add links to your own LinkedIn posts here — caption is your own one-line summary.
-  // Example: { caption: 'Shared my thoughts on...', date: 'Jul 2026', url: 'https://www.linkedin.com/posts/...' }
-  protected readonly linkedinPosts: LinkedInEntry[] = [
-   
-  ];
+  protected readonly linkedinPosts: LinkedInEntry[] = [];
 }
