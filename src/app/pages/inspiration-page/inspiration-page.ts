@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Divider } from '../divider/divider';
+import { Divider } from '../../components/divider/divider';
 import { RevealDirective } from '../../shared/reveal.directive';
 
 interface Inspiration {

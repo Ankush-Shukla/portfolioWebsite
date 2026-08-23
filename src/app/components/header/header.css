@@ -4,7 +4,7 @@
     font-weight: 400;
 }
 .tags{
-    color : #5e5c5c;
+    color : var(--muted);
 }
 
 .profile-pic{

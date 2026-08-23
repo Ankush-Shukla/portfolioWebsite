@@ -1,19 +1,52 @@
 <nav class="site-nav" aria-label="Primary">
   <ul class="navbar-list">
+
     <li>
       <a
         class="nav-link"
         routerLink="/"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
-        >Home</a
       >
+        Home
+      </a>
     </li>
+
     <li>
-      <a class="nav-link" routerLink="/writing" routerLinkActive="active">Writing</a>
+      <a
+        class="nav-link"
+        routerLink="/writing"
+        routerLinkActive="active"
+      >
+        Writing
+      </a>
     </li>
+
     <li>
-      <a class="nav-link" routerLink="/inspiration" routerLinkActive="active">Inspiration</a>
+      <a
+        class="nav-link"
+        routerLink="/inspiration"
+        routerLinkActive="active"
+      >
+        Inspiration
+      </a>
     </li>
+
+    <li class="theme-item">
+      <button
+        class="theme-toggle"
+        type="button"
+        (click)="toggleTheme()"
+        [attr.aria-label]="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+      >
+      
+       @if (isDark) {
+  <i class="fa fa-sun" aria-hidden="true"></i>
+} @else {
+  <i class="fas fa-moon" aria-hidden="true"></i>
+}
+      </button>
+    </li>
+
   </ul>
 </nav>

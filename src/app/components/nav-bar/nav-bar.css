@@ -5,9 +5,10 @@
 .navbar-list {
   display: flex;
   flex-direction: row;
-  gap: 22px;
   align-items: center;
+  gap: 22px;
   list-style: none;
+  width: 100%;
 }
 
 .nav-link {
@@ -56,4 +57,12 @@
   .nav-link {
     font-size: 0.88rem;
   }
+}
+
+.theme-item{
+  margin-left: auto;
+}
+.theme-toggle i {
+  
+  font-size: 12px;
 }
