@@ -13,7 +13,7 @@ export interface BlogPost {
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: 'fear-of-failure',
-    title: 'The Fear of Failure After Success',
+    title: 'Curse of Winning',
     summary:
       "Winning my first hackathon taught me something unexpected: success can create a fear of failing. This is a reflection on overcoming that fear, embracing uncertainty, and why growth begins the moment we choose to try again.",
     date: 'Jul 2026',
