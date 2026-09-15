@@ -19,7 +19,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: 'Jul 2026',
     tag: 'Reflection',
     content: [
-      "Most people think fear comes before success. They imagine the hardest part is taking the first step—entering the competition, submitting the project, or putting themselves out there. But sometimes, the real fear arrives after you've already succeeded.",
+      "Most people think fear comes before success. They imagine the hardest part is taking the first step entering the competition, submitting the project, or putting themselves out there. But sometimes, the real fear arrives after you've already succeeded.",
 
       "I learned this after winning my first hackathon. It was one of the proudest moments of my academic journey. I had worked hard, built something I genuinely believed in, and somehow found myself standing among the winners. For a brief moment, I felt unstoppable.",
 
@@ -57,7 +57,7 @@ export const BLOG_POSTS: BlogPost[] = [
 
       "Neither success nor failure is an identity. They are simply outcomes. What truly matters is the willingness to keep showing up, to keep learning, and to keep building.",
 
-      "Every person we admire—whether they're an entrepreneur, engineer, athlete, artist, or creator—has failed more times than most of us ever see. Their success wasn't built on avoiding failure. It was built on continuing despite it.",
+      "Every person we admire whether they're an entrepreneur, engineer, athlete, artist, or creator has failed more times than most of us ever see. Their success wasn't built on avoiding failure. It was built on continuing despite it.",
 
       "Today, whenever I hesitate before applying for something new, I ask myself a different question.",
 
